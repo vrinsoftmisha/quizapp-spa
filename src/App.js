@@ -6,6 +6,7 @@ import {
   ADMIN_SETTINGS,
   DASHBOARD,
   HOME,
+  REGISTER,
   USER_LOGIN,
   USER_SETTINGS,
 } from "./constant/routes";
@@ -20,6 +21,7 @@ import AdminDashboard from "./components/admin-components/admin-dashboard/admin-
 import UserSettings from "./components/user-components/user-settings/user-settings";
 import AdminSettings from "./components/admin-components/admin-settings/admin-settings";
 import Navbar from "./components/main/navbar/navbar";
+import UserRegister from "./components/auth/register/user-register";
 
 function App() {
   return (
@@ -76,6 +78,8 @@ function App() {
             />
           </Route>
           <Route path={USER_LOGIN} element={<UserLogin />} />
+          <Route path={REGISTER} element={<UserRegister />} />
+
           <Route path={ADMIN_LOGIN} element={<AdminLogin />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="/" element={<Navigate to={USER_LOGIN} />} />

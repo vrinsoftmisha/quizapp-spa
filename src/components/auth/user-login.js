@@ -1,10 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ApiServices from "../../api-services/api-services";
 import { TOKEN } from "../../constant";
 import { DASHBOARD } from "../../constant/routes";
 
 const UserLogin = () => {
   let history = useNavigate();
+  const apiServices = new ApiServices();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const isUserLoggedIn = () => {
     const token = localStorage.getItem(TOKEN);
@@ -18,26 +22,31 @@ const UserLogin = () => {
     isUserLoggedIn();
   }, []);
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
+    const loginResponse = await apiServices.login(
+      "test@test.com",
+      "hello@world"
+    );
+    console.log(loginResponse);
     localStorage.setItem(TOKEN, "testToken");
     history(DASHBOARD);
   };
 
   return (
-    <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 rounded shadow-lg bg-white p-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="px-8 py-6 mx-4 mt-4 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3">
+        <div className="flex mt-4 justify-center"></div>
+        <h3 className="text-2xl font-bold text-center">
+          Sign in to your account
+        </h3>
         <form className="mt-8 space-y-6">
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="mb-5">
               <label>Email address</label>
               <input
+                onChange={(e) => setEmail(e.target.value)}
                 id="email-address"
                 name="email"
                 type="email"
@@ -47,6 +56,7 @@ const UserLogin = () => {
             <div>
               <label>Password</label>
               <input
+                onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 name="password"
                 type="password"
